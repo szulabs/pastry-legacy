@@ -35,3 +35,6 @@ pip-log.txt
 
 # Sphinx
 docs/_build
+
+# Environment
+.env
