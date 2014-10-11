@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'pastry.home',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -53,6 +54,9 @@ ROOT_URLCONF = 'pastry.urls'
 
 WSGI_APPLICATION = 'pastry.wsgi.application'
 
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'pastry/templates'),
+)
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
