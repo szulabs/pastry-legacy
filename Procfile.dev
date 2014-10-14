@@ -1,2 +1,2 @@
 web: python manage.py runserver $PORT
-f2e: gulp watch
+f2e: npm run gulp watch

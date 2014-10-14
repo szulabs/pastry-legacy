@@ -15,6 +15,7 @@
     "webpack": "^1.4.5"
   },
   "scripts": {
-    "prepublish": "gulp webpack"
+    "gulp": "gulp",
+    "prepublish": "gulp build"
   }
 }
