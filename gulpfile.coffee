@@ -16,13 +16,13 @@ gulp.task 'collect', ->
   paths =
     scripts: '/assets/scripts'
     stylesheets: '/assets/stylesheets'
-  scripts = gulp.src "pastry/*/#{paths.scripts}/**/*.js"
+  scripts = gulp.src "pastry/*/#{paths.scripts}/**/*.{js,coffee}"
     .pipe gulp.rename((path) ->
       path.dirname = path.dirname.replace(paths.scripts, '')
       path)
     .pipe gulp.clean()
     .pipe gulp.dest('build' + paths.scripts)
-  stylesheets = gulp.src("pastry/*/#{paths.stylesheets}/**/*.css")
+  stylesheets = gulp.src("pastry/*/#{paths.stylesheets}/**/*.{css,styl}")
     .pipe gulp.rename((path) ->
       path.dirname = path.dirname.replace(paths.stylesheets, '')
       path)
@@ -31,7 +31,7 @@ gulp.task 'collect', ->
   gulp.merge(scripts, stylesheets)
 
 gulp.task 'collect:clean', ->
-  gulp.src 'build/**/*.{js,css}'
+  gulp.src 'build/**/*.{js,css,coffee,styl}'
     .pipe gulp.clean(force: true)
 
 gulp.task 'webpack:build', ['collect'], ->
