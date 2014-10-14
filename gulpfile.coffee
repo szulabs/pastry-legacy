@@ -2,6 +2,7 @@ gulp = require 'gulp'
 gulp.clean = require 'gulp-clean'
 gulp.rename = require 'gulp-rename'
 gulp.webpack = require 'gulp-webpack'
+gulp.coffee = require 'gulp-coffee'
 gulp.merge = require 'merge-stream'
 webpack = require 'webpack'
 path = require 'path'
@@ -34,16 +35,17 @@ gulp.task 'collect:clean', ->
   gulp.src 'build/**/*.{js,css,coffee,styl}'
     .pipe gulp.clean(force: true)
 
-gulp.task 'webpack:build', ['collect'], ->
+gulp.task 'compile:coffee', ['collect'], ->
+  gulp.src 'build/assets/scripts/*/*.coffee'
+    .pipe gulp.coffee()
+    .pipe gulp.dest('build/assets/scripts')
+
+gulp.task 'webpack:build', ['collect', 'compile:coffee'], ->
   gulp.src 'build/assets/scripts/*/*.js'
     .pipe gulp.webpack
       entryName: (file) -> path.basename(file).replace(path.extname(file), '')
       output:
         filename: '[name].js'
-      module:
-        loaders: [
-          { test: /\.css$/, loader: 'style!css' }
-        ]
       plugins: [
         new webpack.optimize.CommonsChunkPlugin('init.js'),
       ]
@@ -54,4 +56,4 @@ gulp.task 'webpack:clean', ->
     .pipe gulp.clean()
 
 gulp.task 'webpack:watch', ['webpack:build'], ->
-  gulp.watch ['**/assets/**/*.js'], ['webpack:build']
+  gulp.watch ['**/assets/**/*.{js,coffee}'], ['webpack:build']
