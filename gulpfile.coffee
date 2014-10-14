@@ -36,7 +36,7 @@ gulp.task 'collect:clean', ->
     .pipe gulp.clean(force: true)
 
 gulp.task 'compile:coffee', ['collect'], ->
-  gulp.src 'build/assets/scripts/*/*.coffee'
+  gulp.src 'build/assets/scripts/**/*.coffee'
     .pipe gulp.coffee()
     .pipe gulp.dest('build/assets/scripts')
 
