@@ -6,7 +6,8 @@
     {% block title %}{% endblock %} | {{ request.site.name|title }}
   </title>
   {% load staticfiles %}
-  <script src="{% static 'scripts/init.js' %}"></script>
+  <script src="{% static 'pastry/commons.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'pastry/commons.css' %}">
   {% block head %}
   {% endblock %}
 </head>
