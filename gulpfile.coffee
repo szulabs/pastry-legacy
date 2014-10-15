@@ -2,7 +2,6 @@ gulp = require 'gulp'
 gulp.clean = require 'gulp-clean'
 gulp.rename = require 'gulp-rename'
 gulp.webpack = require 'gulp-webpack'
-gulp.coffee = require 'gulp-coffee'
 gulp.merge = require 'merge-stream'
 webpack = require 'webpack'
 path = require 'path'
@@ -36,18 +35,15 @@ gulp.task 'collect:clean', ->
   gulp.src 'build/**/*.{js,css,coffee,styl}'
     .pipe gulp.clean(force: true)
 
-gulp.task 'compile:coffee', ['collect'], ->
-  gulp.src 'build/assets/scripts/**/*.coffee'
-    .pipe gulp.coffee()
-    .pipe gulp.dest('build/assets/scripts')
-
-gulp.task 'webpack:build', ['collect', 'compile:coffee'], ->
-  gulp.src 'build/assets/scripts/*/*.js'
+gulp.task 'webpack:build', ['collect'], ->
+  gulp.src 'build/assets/scripts/*/*.{js,coffee}'
     .pipe gulp.webpack
-      entryName: (file) -> path.basename(file).replace(path.extname(file), '')
+      entryName: (file) ->
+        path.basename(file).replace(path.extname(file), '')
       output:
         filename: '[name].js'
       resolve:
+        extensions: ['', '.js', '.coffee']
         modulesDirectories: [
           'node_modules',
           'scripts',
@@ -55,6 +51,10 @@ gulp.task 'webpack:build', ['collect', 'compile:coffee'], ->
         ]
       module:
         loaders: [
+          {
+            test: /\.coffee$/,
+            loader: 'coffee-loader'
+          },
           {
             test: /\.css$/,
             loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
