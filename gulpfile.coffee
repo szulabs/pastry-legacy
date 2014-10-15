@@ -6,6 +6,7 @@ gulp.coffee = require 'gulp-coffee'
 gulp.merge = require 'merge-stream'
 webpack = require 'webpack'
 path = require 'path'
+ExtractTextPlugin = require 'extract-text-webpack-plugin'
 
 # alias
 gulp.task 'default', ['build']
@@ -46,14 +47,32 @@ gulp.task 'webpack:build', ['collect', 'compile:coffee'], ->
       entryName: (file) -> path.basename(file).replace(path.extname(file), '')
       output:
         filename: '[name].js'
+      resolve:
+        modulesDirectories: [
+          'node_modules',
+          'scripts',
+          'stylesheets',
+        ]
+      module:
+        loaders: [
+          {
+            test: /\.css$/,
+            loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
+          },
+          {
+            test: /\.styl$/,
+            loader: ExtractTextPlugin.extract('style-loader', 'css-loader', 'stylus-loader')
+          },
+        ]
       plugins: [
-        new webpack.optimize.CommonsChunkPlugin('init.js'),
+        new webpack.optimize.CommonsChunkPlugin('commons', 'commons.js'),
+        new ExtractTextPlugin('[name].css'),
       ]
-    .pipe gulp.dest('pastry/static/scripts')
+    .pipe gulp.dest('pastry/static/pastry')
 
 gulp.task 'webpack:clean', ->
   gulp.src 'pastry/static/**/*.{js,css}'
     .pipe gulp.clean()
 
 gulp.task 'webpack:watch', ['webpack:build'], ->
-  gulp.watch ['**/assets/**/*.{js,coffee}'], ['webpack:build']
+  gulp.watch ['**/assets/**/*.{js,coffee,css,styl}'], ['webpack:build']

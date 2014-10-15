@@ -1,7 +1,9 @@
 {
   "name": "pastry",
   "dependencies": {
-    "jquery": "^2.1.1"
+    "extract-text-webpack-plugin": "^0.3.1",
+    "jquery": "^2.1.1",
+    "purecss": "^0.5.0"
   },
   "devDependencies": {
     "coffee-script": "^1.8.0",
