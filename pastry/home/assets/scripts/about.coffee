@@ -1,4 +1,4 @@
 require 'purecss/pure.css'
-require 'home/about.css'
+require 'home/about.styl'
 
 $ = require 'jquery'

@@ -57,12 +57,16 @@ gulp.task 'webpack:build', ['collect', 'compile:coffee'], ->
         loaders: [
           {
             test: /\.css$/,
-            loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+            loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
+          },
+          {
+            test: /\.styl$/,
+            loader: ExtractTextPlugin.extract('style-loader', 'css-loader', 'stylus-loader')
           },
         ]
       plugins: [
         new webpack.optimize.CommonsChunkPlugin('commons', 'commons.js'),
-        new ExtractTextPlugin("[name].css"),
+        new ExtractTextPlugin('[name].css'),
       ]
     .pipe gulp.dest('pastry/static/pastry')
 
@@ -71,4 +75,4 @@ gulp.task 'webpack:clean', ->
     .pipe gulp.clean()
 
 gulp.task 'webpack:watch', ['webpack:build'], ->
-  gulp.watch ['**/assets/**/*.{js,coffee}'], ['webpack:build']
+  gulp.watch ['**/assets/**/*.{js,coffee,css,styl}'], ['webpack:build']
