@@ -38,8 +38,13 @@ gulp.task 'collect:clean', ->
 gulp.task 'webpack:build', ['collect'], ->
   gulp.src 'build/assets/scripts/*/*.{js,coffee}'
     .pipe gulp.webpack
-      entryName: (file) ->
-        path.basename(file).replace(path.extname(file), '')
+      entryFactory: (entry) ->
+        namedEntry = {}
+        for file in entry
+          do (file) ->
+            name = path.basename(file).replace(path.extname(file), '')
+            namedEntry[name] = file
+        namedEntry
       output:
         filename: '[name].js'
       resolve:
