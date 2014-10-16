@@ -1,7 +1,7 @@
-yargs = require 'yargs'
 webpack = require 'webpack'
 ExtractTextPlugin = require 'extract-text-webpack-plugin'
-extract = ExtractTextPlugin.extract
+{extract} = require 'extract-text-webpack-plugin'
+{argv} = require 'yargs'
 
 loaders = [
   {
@@ -23,6 +23,11 @@ plugins = [
     new ExtractTextPlugin('[name].css'),
 ]
 
+if not argv.dev
+  plugins = plugins.concat [
+    new webpack.optimize.UglifyJsPlugin(),
+  ]
+
 module.exports =
   resolve:
     extensions: ['', '.js', '.coffee']
@@ -34,4 +39,4 @@ module.exports =
   module:
     loaders: loaders
   plugins: plugins
-  devtool: '#source-map' if yargs.argv['dev']
+  devtool: '#source-map' if argv.dev

@@ -64,6 +64,8 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'pastry/static'),
 )
 
+STATICFILES_STORAGE = os.environ['PASTRY_STATICFILES_STORAGE']
+
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
@@ -101,3 +103,4 @@ SITE_ID = os.environ.get('PASTRY_SITE_ID', 1)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.environ['PASTRY_STATIC_ROOT']
