@@ -5,6 +5,7 @@ named = require 'vinyl-named'
 del = require 'del'
 
 # config
+
 project =
   name: 'pastry'
   dest: 'pastry/static/pastry'
@@ -17,10 +18,14 @@ scripts =
   name: 'scripts'
   exts: ['js', 'coffee']
 
-# alias
+# tasks
+
 gulp.task 'default', ['clean', 'build']
+
 gulp.task 'build', ['webpack']
+
 gulp.task 'watch', ['webpack:watch']
+
 gulp.task 'clean', ['collect:clean', 'webpack:clean']
 
 gulp.task 'collect', ->
