@@ -1,2 +1,2 @@
 web: python manage.py runserver $PORT
-f2e: gulp --enable-sourcemap=$PASTRY_DEBUG watch
+f2e: gulp --dev=$PASTRY_DEBUG watch
