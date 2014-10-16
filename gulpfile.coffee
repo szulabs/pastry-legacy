@@ -3,45 +3,55 @@ clean = require 'gulp-clean'
 rename = require 'gulp-rename'
 webpack = require 'gulp-webpack'
 named = require 'vinyl-named'
-merge = require 'merge-stream'
+
+# config
+project =
+  name: 'pastry'
+  dest: 'pastry/static/pastry'
+  webpack: require('./webpack.config')
+assets =
+  name: 'assets'
+  dirs: ['scripts', 'stylesheets']
+  exts: ['js', 'coffee', 'css', 'styl']
+scripts =
+  name: 'scripts'
+  exts: ['js', 'coffee']
 
 # alias
-gulp.task 'default', ['build']
-gulp.task 'build', ['webpack:build']
+gulp.task 'default', ['clean', 'build']
+gulp.task 'build', ['webpack']
 gulp.task 'watch', ['webpack:watch']
 gulp.task 'clean', ['collect:clean', 'webpack:clean']
 
 gulp.task 'collect', ->
-  paths =
-    scripts: '/assets/scripts'
-    stylesheets: '/assets/stylesheets'
-  scripts = gulp.src "pastry/*/#{paths.scripts}/**/*.{js,coffee}"
-    .pipe rename((path) ->
-      path.dirname = path.dirname.replace(paths.scripts, '')
-      path)
+  dirs = assets.dirs.join(',')
+  exts = assets.exts.join(',')
+  gulp.src "#{project.name}/*/#{assets.name}/{#{dirs}}/**/*.{#{exts}}"
+      .pipe rename((path) ->
+        dirs = assets.dirs.join('|')
+        pattern = new RegExp("([^/]+)/#{assets.name}/(#{dirs})(/[^/]+)?")
+        matched = pattern.exec(path.dirname)
+        path.dirname = "#{matched[2]}/#{matched[1]}#{matched[3] || ''}"
+        path)
     .pipe clean()
-    .pipe gulp.dest('build' + paths.scripts)
-  stylesheets = gulp.src("pastry/*/#{paths.stylesheets}/**/*.{css,styl}")
-    .pipe rename((path) ->
-      path.dirname = path.dirname.replace(paths.stylesheets, '')
-      path)
-    .pipe clean()
-    .pipe gulp.dest('build' + paths.stylesheets)
-  merge(scripts, stylesheets)
+    .pipe gulp.dest('build/assets')
 
 gulp.task 'collect:clean', ->
-  gulp.src 'build/**/*.{js,css,coffee,styl}'
+  gulp.src "build/**/*.{#{assets.exts.join(',')}}"
       .pipe clean(force: true)
 
-gulp.task 'webpack:build', ['collect'], ->
-  gulp.src 'build/assets/scripts/*/*.{js,coffee}'
+gulp.task 'webpack', ['collect'], ->
+  gulp.src "build/assets/#{scripts.name}/*/*.{#{scripts.exts.join(',')}}"
       .pipe named()
-      .pipe webpack(require('./webpack.config'))
-      .pipe gulp.dest('pastry/static/pastry')
+      .pipe webpack(project.webpack)
+      .pipe gulp.dest(project.dest)
 
 gulp.task 'webpack:clean', ->
-  gulp.src 'pastry/static/**/*.{js,css}'
+  gulp.src "#{project.dest}/**/*.{#{assets.exts.join(',')}}"
       .pipe clean()
 
-gulp.task 'webpack:watch', ['webpack:build'], ->
-  gulp.watch ['**/assets/**/*.{js,coffee,css,styl}'], ['webpack:build']
+gulp.task 'webpack:watch', ['webpack'], ->
+  dirs = assets.dirs.join(',')
+  exts = assets.exts.join(',')
+  location = "#{project.name}/*/#{assets.name}/{#{dirs}}/**/*.{#{exts}}"
+  gulp.watch [location], ['webpack']
