@@ -8,7 +8,7 @@ del = require 'del'
 
 project =
   name: 'pastry'
-  dest: 'pastry/static/pastry'
+  dest: 'pastry/static'
   webpack: require('./webpack.config')
 assets =
   name: 'assets'
@@ -20,7 +20,7 @@ scripts =
 
 # tasks
 
-gulp.task 'default', ['clean', 'build']
+gulp.task 'default', ['clean'], -> gulp.start('build')
 
 gulp.task 'build', ['webpack']
 
