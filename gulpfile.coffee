@@ -5,6 +5,7 @@ gulp.webpack = require 'gulp-webpack'
 gulp.merge = require 'merge-stream'
 webpack = require 'webpack'
 path = require 'path'
+yargs = require 'yargs'
 ExtractTextPlugin = require 'extract-text-webpack-plugin'
 
 # alias
@@ -73,6 +74,7 @@ gulp.task 'webpack:build', ['collect'], ->
         new webpack.optimize.CommonsChunkPlugin('commons', 'commons.js'),
         new ExtractTextPlugin('[name].css'),
       ]
+      devtool: '#source-map' if yargs.argv['enable-sourcemap']
     .pipe gulp.dest('pastry/static/pastry')
 
 gulp.task 'webpack:clean', ->
