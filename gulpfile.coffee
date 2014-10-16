@@ -53,7 +53,7 @@ gulp.task 'webpack', ['collect'], ->
 
 gulp.task 'webpack:clean', (done) ->
   del [
-    "#{project.dest}/**/*.{#{assets.exts.join(',')}}",
+    "#{project.dest}/**/*",
   ], done
 
 gulp.task 'webpack:watch', ['webpack'], ->
