@@ -3,6 +3,7 @@ gulp.clean = require 'gulp-clean'
 gulp.rename = require 'gulp-rename'
 gulp.webpack = require 'gulp-webpack'
 gulp.merge = require 'merge-stream'
+gulp.named = require 'vinyl-named'
 webpack = require 'webpack'
 path = require 'path'
 yargs = require 'yargs'
@@ -38,16 +39,8 @@ gulp.task 'collect:clean', ->
 
 gulp.task 'webpack:build', ['collect'], ->
   gulp.src 'build/assets/scripts/*/*.{js,coffee}'
+    .pipe gulp.named()
     .pipe gulp.webpack
-      entryFactory: (entry) ->
-        namedEntry = {}
-        for file in entry
-          do (file) ->
-            name = path.basename(file).replace(path.extname(file), '')
-            namedEntry[name] = file
-        namedEntry
-      output:
-        filename: '[name].js'
       resolve:
         extensions: ['', '.js', '.coffee']
         modulesDirectories: [
