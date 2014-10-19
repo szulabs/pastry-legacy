@@ -23,7 +23,7 @@ plugins = [
     new ExtractTextPlugin('[name].css'),
 ]
 
-if not argv.dev
+if not argv.debug
   plugins = plugins.concat [
     new webpack.optimize.UglifyJsPlugin(),
   ]
@@ -39,4 +39,4 @@ module.exports =
   module:
     loaders: loaders
   plugins: plugins
-  devtool: '#source-map' if argv.dev
+  devtool: '#source-map' if argv.debug
