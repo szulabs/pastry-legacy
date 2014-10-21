@@ -1,4 +1,5 @@
 webpack = require 'webpack'
+nib = require 'nib'
 ExtractTextPlugin = require 'extract-text-webpack-plugin'
 {extract} = require 'extract-text-webpack-plugin'
 {argv} = require 'yargs'
@@ -14,7 +15,7 @@ loaders = [
   },
   {
     test: /\.styl$/,
-    loader: extract('style-loader', 'css-loader', 'stylus-loader')
+    loader: extract('style-loader', 'css-loader!stylus-loader')
   },
 ]
 
@@ -40,3 +41,7 @@ module.exports =
     loaders: loaders
   plugins: plugins
   devtool: '#source-map' if argv.debug
+  stylus:
+    use: [
+      nib(),
+    ]

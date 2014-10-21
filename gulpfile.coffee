@@ -60,4 +60,4 @@ gulp.task 'webpack:watch', ['webpack'], ->
   dirs = assets.dirs.join(',')
   exts = assets.exts.join(',')
   location = "#{project.name}/*/#{assets.name}/{#{dirs}}/**/*.{#{exts}}"
-  gulp.watch [location], ['webpack']
+  gulp.watch location, ['webpack']
