@@ -1,9 +1,12 @@
 gulp = require 'gulp'
 rename = require 'gulp-rename'
 webpack = require 'gulp-webpack'
+stylus = require 'gulp-stylus'
 named = require 'vinyl-named'
 del = require 'del'
 path = require 'path'
+nib = require 'nib'
+{argv} = require 'yargs'
 
 # config
 
@@ -61,7 +64,12 @@ gulp.task 'webpack', ['collect'], ->
       .pipe gulp.dest("#{project.dest}/#{scripts.name}")
 
 gulp.task 'style', ['collect'], ->
+  options =
+    use: [nib()]
+    compress: not argv.debug
+    sourcemap: { inline: argv.debug } if argv.debug
   gulp.src assets.glob(stylesheets)
+      .pipe stylus(options)
       .pipe gulp.dest("#{project.dest}/#{stylesheets.name}")
 
 gulp.task 'clean:collect', (done) ->
