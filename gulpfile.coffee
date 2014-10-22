@@ -3,32 +3,40 @@ rename = require 'gulp-rename'
 webpack = require 'gulp-webpack'
 named = require 'vinyl-named'
 del = require 'del'
+path = require 'path'
 
 # config
 
 project =
   name: 'pastry'
   dest: 'pastry/static'
+  build: 'build/assets'
   webpack: require('./webpack.config')
-assets =
-  name: 'assets'
-  dirs: ['scripts', 'stylesheets']
-  exts: ['js', 'coffee', 'css', 'styl']
-  glob: ->
-    dirs = assets.dirs.join(',')
-    exts = assets.exts.join(',')
-    "#{project.name}/*/#{assets.name}/{#{dirs}}/**/*.{#{exts}}"
 scripts =
   name: 'scripts'
   exts: ['js', 'coffee']
+stylesheets =
+  name: 'stylesheets'
+  exts: ['css', 'styl']
+assets =
+  name: 'assets'
+  dirs: [scripts.name, stylesheets.name]
+  exts: [].concat(scripts.exts, stylesheets.exts)
+  glob: (bundle) ->
+    if bundle
+      "#{project.build}/#{bundle.name}/*/*.{#{bundle.exts.join(',')}}"
+    else
+      dirs = assets.dirs.join(',')
+      exts = assets.exts.join(',')
+      "#{project.name}/*/#{assets.name}/{#{dirs}}/**/*.{#{exts}}"
 
 # tasks
 
 gulp.task 'default', ['clean'], -> gulp.start('build')
 
-gulp.task 'build', ['webpack']
+gulp.task 'build', ['webpack', 'style']
 
-gulp.task 'clean', ['collect:clean', 'webpack:clean']
+gulp.task 'clean', ['clean:collect', 'clean:dist']
 
 gulp.task 'watch', ['default'], ->
   gulp.watch assets.glob(), ['build']
@@ -41,20 +49,27 @@ gulp.task 'collect', ->
         matched = pattern.exec(path.dirname)
         path.dirname = "#{matched[2]}/#{matched[1]}#{matched[3] || ''}"
         path)
-      .pipe gulp.dest('build/assets')
-
-gulp.task 'collect:clean', (done) ->
-  del [
-    "build/**/*.{#{assets.exts.join(',')}}"
-  ], done
+      .pipe gulp.dest(project.build)
 
 gulp.task 'webpack', ['collect'], ->
-  gulp.src "build/assets/#{scripts.name}/*/*.{#{scripts.exts.join(',')}}"
-      .pipe named()
+  gulp.src assets.glob(scripts)
+      .pipe named((file) ->
+        dirname = path.basename(path.dirname(file.path))
+        filename = path.basename(file.path, path.extname(file.path))
+        path.join(dirname, filename))
       .pipe webpack(project.webpack)
-      .pipe gulp.dest(project.dest)
+      .pipe gulp.dest("#{project.dest}/#{scripts.name}")
 
-gulp.task 'webpack:clean', (done) ->
+gulp.task 'style', ['collect'], ->
+  gulp.src assets.glob(stylesheets)
+      .pipe gulp.dest("#{project.dest}/#{stylesheets.name}")
+
+gulp.task 'clean:collect', (done) ->
+  del [
+    "#{project.build}/**/*.{#{assets.exts.join(',')}}"
+  ], done
+
+gulp.task 'clean:dist', (done) ->
   del [
     "#{project.dest}/**/*",
   ], done
