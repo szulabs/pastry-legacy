@@ -1,32 +1,17 @@
 webpack = require 'webpack'
-ExtractTextPlugin = require 'extract-text-webpack-plugin'
-{extract} = require 'extract-text-webpack-plugin'
+nib = require 'nib'
 {argv} = require 'yargs'
 
 loaders = [
-  {
-    test: /\.coffee$/,
-    loader: 'coffee-loader'
-  },
-  {
-    test: /\.css$/,
-    loader: extract('style-loader', 'css-loader')
-  },
-  {
-    test: /\.styl$/,
-    loader: extract('style-loader', 'css-loader', 'stylus-loader')
-  },
+  { test: /\.coffee$/, loader: 'coffee' },
+  { test: /\.css$/, loader: 'style!css' },
+  { test: /\.styl$/, loader: 'style!css!stylus'},
 ]
 
 plugins = [
-    new webpack.optimize.CommonsChunkPlugin('commons', 'commons.js'),
-    new ExtractTextPlugin('[name].css'),
+    new webpack.optimize.CommonsChunkPlugin('commons.js'),
+    new webpack.optimize.UglifyJsPlugin() unless argv.debug,
 ]
-
-if not argv.dev
-  plugins = plugins.concat [
-    new webpack.optimize.UglifyJsPlugin(),
-  ]
 
 module.exports =
   resolve:
@@ -38,5 +23,8 @@ module.exports =
     ]
   module:
     loaders: loaders
-  plugins: plugins
-  devtool: '#source-map' if argv.dev
+  plugins: plugins.filter((item) -> item)  # keep truthy items only
+  devtool: 'source-map' if argv.debug
+  cache: false
+  stylus:
+    use: [nib()]
