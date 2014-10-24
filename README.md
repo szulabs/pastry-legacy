@@ -1,6 +1,6 @@
 # Pastry
 
-The unofficial implementation of [stu.szu.edu.cn](http://stu.szu.edu.cn).
+The official site of [szulabs](https://szulabs.org).
 
 ## Quick Start Guide
 
