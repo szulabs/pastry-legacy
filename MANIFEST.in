@@ -1,0 +1,7 @@
+include README.md LICENSE requirements.txt tox.ini
+recursive-include pastry/static *.css
+recursive-include pastry/static *.js
+recursive-include pastry/static *.svg
+recursive-include pastry/static *.png
+recursive-include docs *.rst
+prune docs/_build
