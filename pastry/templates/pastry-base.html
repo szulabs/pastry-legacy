@@ -6,6 +6,7 @@
     {% block title %}{% endblock %} | {{ request.site.name|title }}
   </title>
   {% load staticfiles %}
+  <link rel="stylesheet" href="{% static 'stylesheets/commons/commons.css' %}">
   <script src="{% static 'scripts/commons.js' %}"></script>
   {% block head %}
   {% endblock %}

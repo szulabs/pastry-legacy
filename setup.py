@@ -15,7 +15,7 @@ setup(
     author='Jiangge Zhang',
     author_email='tonyseek@gmail.com',
     url='https://github.com/szulabs/pastry',
-    description='The unofficial implementation of stu.szu.edu.cn',
+    description='The official site of szulabs.',
     long_description=long_description,
     packages=find_packages(),
     include_package_data=True,
