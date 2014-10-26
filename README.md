@@ -1,5 +1,7 @@
 # Pastry
 
+[![Build Status](http://img.shields.io/travis/szulabs/pastry/master.svg?style=flat)](https://travis-ci.org/szulabs/pastry)
+
 The official site of [szulabs](https://szulabs.org).
 
 ## Quick Start Guide
