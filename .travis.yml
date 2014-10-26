@@ -18,6 +18,9 @@ script:
 branches:
   only:
     - master
+notifications:
+  irc:
+    - "chat.freenode.net#szulabs"
 deploy:
   provider: releases
   file:
