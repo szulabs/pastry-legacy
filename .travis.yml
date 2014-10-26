@@ -18,6 +18,7 @@ script:
 branches:
   only:
     - master
+    - /^\d+\.\d+$/
 notifications:
   irc:
     - "chat.freenode.net#szulabs"
