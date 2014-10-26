@@ -7,8 +7,8 @@ The official site of [szulabs](https://szulabs.org).
 1. Install Python 3.4, pip and virtualenv. You may want to use [pyenv](pyenv) and [pyenv-virtualenv][pyenv-virtualenv] to archive it.
 2. Install Node.js and PostgreSQL.
 3. Install other tools:
-  - [Honcho][honcho] for running processes: `pip install honcho`
-  - [gulp][gulp] for building F2E assets: `npm install -g gulp`
+  - [honcho][honcho]: `pip install https://github.com/nickstenning/honcho/archive/master.zip`
+  - [gulp][gulp]: `npm install -g gulp`
 4. Prepare the development environment:
   - Create a virtualenv: `pyenv install 3.4.1 && pyenv virtualenv 3.4.1 @pastry` or `virtualenv -p python3.4 ~/.venvs/pastry`
   - Activate the virtualenv: `pyenv activate @pastry` or `. ~/.venvs/pastry/bin/activate`

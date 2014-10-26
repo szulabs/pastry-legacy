@@ -8,13 +8,13 @@ For quick start into development, you need read the README only.
 
 ### Toolchains
 
-- [gulp](http://gulpjs.com)
-- [webpack](http://webpack.github.io)
+- [Gulp](http://gulpjs.com)
+- [Webpack](http://webpack.github.io)
 
 ### Languages and Libraries
 
-- [coffee-script](http://coffeescript.org)
-- [stylus](http://learnboost.github.io/stylus/) / [nib](https://github.com/tj/nib/tree/master/docs)
+- [Coffee Script](http://coffeescript.org)
+- [Stylus](http://learnboost.github.io/stylus/) and [nib](https://github.com/tj/nib/tree/master/docs)
 
 ### Knowledges
 
@@ -24,5 +24,5 @@ For quick start into development, you need read the README only.
 
 ### Toolchains
 
-- [virtualenv](https://virtualenv.pypa.io/en/latest/)
+- [Virtualenv](https://virtualenv.pypa.io/en/latest/)
 - [Honcho](https://honcho.readthedocs.org)
