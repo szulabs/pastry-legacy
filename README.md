@@ -1,5 +1,8 @@
 # Pastry
 
+[![Build Status](https://img.shields.io/travis/szulabs/pastry/master.svg?style=flat)](https://travis-ci.org/szulabs/pastry)
+[![Current Version](https://img.shields.io/github/release/szulabs/pastry.svg?style=flat)](https://github.com/szulabs/pastry/releases)
+
 The official site of [szulabs](https://szulabs.org).
 
 ## Quick Start Guide
@@ -22,7 +25,10 @@ The official site of [szulabs](https://szulabs.org).
   - Create your administrator account: `honcho run ./manage.py createsuperuser`
 6. Now `honcho start` and access `http://127.0.0.1:5000/` in your browser.
 
+Feel free to ask in the [#szulabs][irc-szulabs] IRC channel on chat.freenode.net.
+
 [pyenv]: https://github.com/yyuu/pyenv
 [pyenv-virtualenv]: https://github.com/yyuu/pyenv-virtualenv
 [honcho]: https://honcho.readthedocs.org
 [gulp]: http://gulpjs.com
+[irc-szulabs]: https://webchat.freenode.net/?channels=szulabs
