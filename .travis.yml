@@ -1,0 +1,26 @@
+language: python
+python:
+  - "3.4"
+addons:
+  postgresql: "9.3"
+env:
+  - PASTRY_DEBUG=0
+  - PASTRY_SECRET_KEY=travis-ci
+  - PASTRY_DATABASE_URI=postgresql://postgres@localhost/pastry
+  - PASTRY_STATIC_ROOT='build/static'
+  - PASTRY_STATICFILES_STORAGE='django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+install:
+  - pip install wheel
+  - pip install -r requirements.txt
+  - pip install -r requirements-testing.txt
+  - npm install
+before_script:
+  - createdb -U postgres pastry
+  - python manage.py migrate --noinput
+  - python manage.py createsuperuser --username=travis --email=travis@localhost --noinput
+script:
+  - make dist
+  - py.test
+branches:
+  only:
+    - master
