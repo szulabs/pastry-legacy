@@ -18,3 +18,14 @@ script:
 branches:
   only:
     - master
+deploy:
+  provider: releases
+  file:
+    - dist/pastry-*.tar.gz
+    - dist/pastry-*.whl
+  file_glob: true
+  on:
+    repo: szulabs/pastry
+    tags: true
+  api_key:
+    secure: QCCN9cooxjwTvXVLrjwZQWBkMhJ1Py07G/4tjNxa0AJNEK3hl4ZtCoDXB54QYVD6JNMpghojEAa6fLAN2gnhnHzcTmDHXMlKGtLnJSipPT17EVtR8Oh8rRbvpRA/d/Sq6uexBfT+uXru7hOM+B940CibMaeTwelBk8a2AY4Rk+w=
