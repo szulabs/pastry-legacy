@@ -15,10 +15,6 @@ before_script:
 script:
   - make dist
   - py.test
-branches:
-  only:
-    - master
-    - /^v\d+\.\d+$/
 notifications:
   irc:
     - "chat.freenode.net#szulabs"
