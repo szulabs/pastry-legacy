@@ -14,7 +14,7 @@ before_script:
   - python manage.py createsuperuser --username=travis --email=travis@localhost --noinput
 script:
   - make dist
-  - py.test
+  - tox
 notifications:
   irc:
     - "chat.freenode.net#szulabs"
