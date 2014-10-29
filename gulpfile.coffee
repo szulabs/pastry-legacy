@@ -6,6 +6,7 @@ named = require 'vinyl-named'
 del = require 'del'
 path = require 'path'
 nib = require 'nib'
+browserSync = require 'browser-sync'
 {argv} = require 'yargs'
 
 # config
@@ -35,13 +36,15 @@ assets =
 
 # tasks
 
-gulp.task 'default', ['clean'], -> gulp.start('build')
+gulp.task 'default', ['clean'], ->
+  gulp.start 'build'
 
 gulp.task 'build', ['webpack', 'style']
 
 gulp.task 'clean', ['clean:collect', 'clean:dist']
 
 gulp.task 'watch', ['default'], ->
+  gulp.start 'browser-sync'
   gulp.watch assets.glob(), ['build']
 
 gulp.task 'collect', ->
@@ -71,6 +74,12 @@ gulp.task 'style', ['collect'], ->
   gulp.src assets.glob(stylesheets)
       .pipe stylus(options)
       .pipe gulp.dest("#{project.dest}/#{stylesheets.name}")
+      .pipe browserSync.reload(stream: true)
+
+gulp.task 'browser-sync', ->
+  port = argv.port or process.env.PORT
+  proxy = argv.proxy or "localhost:#{port - 100}"
+  browserSync port: port, proxy: proxy, open: false
 
 gulp.task 'clean:collect', (done) ->
   del [
