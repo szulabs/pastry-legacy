@@ -2,6 +2,7 @@ gulp = require 'gulp'
 rename = require 'gulp-rename'
 webpack = require 'gulp-webpack'
 stylus = require 'gulp-stylus'
+plumber = require 'gulp-plumber'
 named = require 'vinyl-named'
 del = require 'del'
 path = require 'path'
@@ -59,6 +60,7 @@ gulp.task 'collect', ->
 
 gulp.task 'webpack', ['collect'], ->
   gulp.src assets.glob(scripts)
+      .pipe plumber()
       .pipe named((file) ->
         dirname = path.basename(path.dirname(file.path))
         filename = path.basename(file.path, path.extname(file.path))
@@ -72,6 +74,7 @@ gulp.task 'style', ['collect'], ->
     compress: not argv.debug
     sourcemap: { inline: argv.debug } if argv.debug
   gulp.src assets.glob(stylesheets)
+      .pipe plumber()
       .pipe stylus(options)
       .pipe gulp.dest("#{project.dest}/#{stylesheets.name}")
       .pipe browserSync.reload(stream: true)
