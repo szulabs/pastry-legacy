@@ -2,10 +2,12 @@ gulp = require 'gulp'
 rename = require 'gulp-rename'
 webpack = require 'gulp-webpack'
 stylus = require 'gulp-stylus'
+plumber = require 'gulp-plumber'
 named = require 'vinyl-named'
 del = require 'del'
 path = require 'path'
 nib = require 'nib'
+browserSync = require 'browser-sync'
 {argv} = require 'yargs'
 
 # config
@@ -35,13 +37,15 @@ assets =
 
 # tasks
 
-gulp.task 'default', ['clean'], -> gulp.start('build')
+gulp.task 'default', ['clean'], ->
+  gulp.start 'build'
 
 gulp.task 'build', ['webpack', 'style']
 
 gulp.task 'clean', ['clean:collect', 'clean:dist']
 
 gulp.task 'watch', ['default'], ->
+  gulp.start 'browser-sync'
   gulp.watch assets.glob(), ['build']
 
 gulp.task 'collect', ->
@@ -56,6 +60,7 @@ gulp.task 'collect', ->
 
 gulp.task 'webpack', ['collect'], ->
   gulp.src assets.glob(scripts)
+      .pipe plumber()
       .pipe named((file) ->
         dirname = path.basename(path.dirname(file.path))
         filename = path.basename(file.path, path.extname(file.path))
@@ -69,8 +74,15 @@ gulp.task 'style', ['collect'], ->
     compress: not argv.debug
     sourcemap: { inline: argv.debug } if argv.debug
   gulp.src assets.glob(stylesheets)
+      .pipe plumber()
       .pipe stylus(options)
       .pipe gulp.dest("#{project.dest}/#{stylesheets.name}")
+      .pipe browserSync.reload(stream: true)
+
+gulp.task 'browser-sync', ->
+  port = argv.port or process.env.PORT
+  proxy = argv.proxy or "localhost:#{port - 100}"
+  browserSync port: port, proxy: proxy, open: false
 
 gulp.task 'clean:collect', (done) ->
   del [
