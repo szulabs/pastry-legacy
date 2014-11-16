@@ -18,6 +18,8 @@ script:
 notifications:
   irc:
     - "chat.freenode.net#szulabs"
+  slack:
+    secure: OLiZ0jS9jFQNLu31QwvVozFP73zee06bEXCziWLDA9lmkdhiQ1rGwTjsFXMG6tHhu23cKqvQNBtdaIXCMEY1fPGoeo4ja5R7wH7lCUFSqYFatFkYO2s9mDzLtMcxfN+VGrNfjHKT/zfpYFBMlXSLDOXNNYRPQ2zAWch6D9vUk48=
 deploy:
   provider: releases
   file:
