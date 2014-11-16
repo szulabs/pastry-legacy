@@ -11,7 +11,7 @@ with open('requirements.txt') as requirements:
 
 setup(
     name='pastry',
-    version='0.4',
+    version='0.5',
     author='Jiangge Zhang',
     author_email='tonyseek@gmail.com',
     url='https://github.com/szulabs/pastry',
