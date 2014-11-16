@@ -25,7 +25,7 @@ DEBUG = bool(int(os.environ['PASTRY_DEBUG']))
 
 TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('PASTRY_ALLOWED_HOSTS', '').split(':')
 
 
 # Application definition
