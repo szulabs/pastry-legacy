@@ -26,7 +26,7 @@ DEBUG = bool(int(os.environ['PASTRY_DEBUG']))
 TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = os.environ.get('PASTRY_ALLOWED_HOSTS', '').split(':')
-
+RAVEN_CONFIG = {'dsn': os.environ.get('PASTRY_RAVEN_DSN', '')}
 
 # Application definition
 
@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'raven.contrib.django.raven_compat',
     'pastry.commons',
     'pastry.home',
 )
