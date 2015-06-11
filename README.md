@@ -21,12 +21,12 @@ The official site of [szulabs](https://szulabs.org).
 2. Go into the project's directory: `cd pastry`
 3. Install the frontend dependencies: `(pyenv shell system && npm install)`
 4. Go into the [virtualenv][virtualenv]: `pyenv up`
-5. Install the backend dependencies: `pip install -r requirements.txt -r requirements-dev.txt -r requirements-testing.txt`
+5. Install the backend dependencies: `make install-deps`
 
 ### The Local Server for Development
 
 1. Edit your local environment variable file from the `.env.example` template: `cp .env.example .env && vim .env`
-2. Make sure you are inside the shell opening by `pyenv up`
+2. Make sure you are in the virtualenv opening by `pyenv up`
 3. Prepare the database:
   - Create a empty PostgreSQL database: `createdb pastry`
   - Migrate to the latest schema: `python manage.py migrate`
