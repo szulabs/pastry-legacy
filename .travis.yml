@@ -16,19 +16,5 @@ script:
   - make dist
   - tox
 notifications:
-  irc:
-    - "chat.freenode.net#szulabs"
   slack:
     secure: OLiZ0jS9jFQNLu31QwvVozFP73zee06bEXCziWLDA9lmkdhiQ1rGwTjsFXMG6tHhu23cKqvQNBtdaIXCMEY1fPGoeo4ja5R7wH7lCUFSqYFatFkYO2s9mDzLtMcxfN+VGrNfjHKT/zfpYFBMlXSLDOXNNYRPQ2zAWch6D9vUk48=
-deploy:
-  provider: releases
-  file:
-    - dist/pastry-*.tar.gz
-    - dist/pastry-*.whl
-  file_glob: true
-  on:
-    repo: szulabs/pastry
-    tags: true
-    all_branches: true
-  api_key:
-    secure: QCCN9cooxjwTvXVLrjwZQWBkMhJ1Py07G/4tjNxa0AJNEK3hl4ZtCoDXB54QYVD6JNMpghojEAa6fLAN2gnhnHzcTmDHXMlKGtLnJSipPT17EVtR8Oh8rRbvpRA/d/Sq6uexBfT+uXru7hOM+B940CibMaeTwelBk8a2AY4Rk+w=
